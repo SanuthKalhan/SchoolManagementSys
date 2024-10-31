@@ -3,22 +3,8 @@ import React, { useState } from 'react';
 function StudentTable() {
   const [editRow, setEditRow] = useState(null);
   const [students, setStudents] = useState([
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
+    { id: 'S001', name: 'Neil Sims', age: 20, gender: 'Male', birthCertificate: 'path/to/neil-bc.pdf' },
+    { id: 'S002', name: 'Alex Turner', age: 22, gender: 'Male', birthCertificate: 'path/to/alex-bc.pdf' },
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,7 +37,7 @@ function StudentTable() {
   );
 
   return (
-    <div className="relative overflow-x-auto  sm:rounded-t-2xl border rounded-2xl">
+    <div className="relative overflow-x-auto sm:rounded-t-2xl border rounded-2xl">
       <div className="flex items-center justify-between flex-col md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white rounded-t-2xl">
         <div className="ml-5 text-gray-500 text-lg">Student Details</div>
         <div className="relative flex items-center ml-auto mr-5">
@@ -77,8 +63,8 @@ function StudentTable() {
               <th scope="col" className="px-4 py-3">Reg ID</th>
               <th scope="col" className="px-4 py-3">Name</th>
               <th scope="col" className="px-4 py-3">Age</th>
-              <th scope="col" className="px-4 py-3">Email</th>
-              <th scope="col" className="px-4 py-3">Address</th>
+              <th scope="col" className="px-4 py-3">Gender</th>
+              <th scope="col" className="px-4 py-3">Birth Certificate</th>
               <th scope="col" className="px-4 py-3">Actions</th>
             </tr>
           </thead>
@@ -113,25 +99,27 @@ function StudentTable() {
                 <td className="px-4 py-2 truncate">
                   {editRow === index ? (
                     <input
-                      type="email"
-                      value={student.email}
-                      onChange={(e) => handleInputChange(index, 'email', e.target.value)}
+                      type="text"
+                      value={student.gender}
+                      onChange={(e) => handleInputChange(index, 'gender', e.target.value)}
                       className="border rounded px-2 py-1"
                     />
                   ) : (
-                    student.email
+                    student.gender
                   )}
                 </td>
-                <td className="px-4 py-2 truncate">
+                <td className="px-4 py-2">
                   {editRow === index ? (
                     <input
                       type="text"
-                      value={student.address}
-                      onChange={(e) => handleInputChange(index, 'address', e.target.value)}
+                      value={student.birthCertificate}
+                      onChange={(e) => handleInputChange(index, 'birthCertificate', e.target.value)}
                       className="border rounded px-2 py-1"
                     />
                   ) : (
-                    student.address
+                    <a href={student.birthCertificate} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                      View PDF
+                    </a>
                   )}
                 </td>
                 <td className="px-4 py-2">

@@ -5,7 +5,7 @@ const LecturerAddForm = ({ onAddLecturer }) => {
     id: '',
     name: '',
     age: '',
-    email: '',
+    gender: '',
     address: '',
   });
 
@@ -18,9 +18,9 @@ const LecturerAddForm = ({ onAddLecturer }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (newLecturer.id && newLecturer.name && newLecturer.age && newLecturer.email && newLecturer.address) {
+    if (newLecturer.id && newLecturer.name && newLecturer.age && newLecturer.gender && newLecturer.address) {
       onAddLecturer(newLecturer);
-      setNewLecturer({ id: '', name: '', age: '', email: '', address: '' });
+      setNewLecturer({ id: '', name: '', age: '', gender: '', address: '' });
       setIsSaved(true);
       setTimeout(() => {
         setIsSaved(false);
@@ -66,15 +66,18 @@ const LecturerAddForm = ({ onAddLecturer }) => {
           />
         </div>
         <div className="flex-1 px-2 py-2">
-          <input
-            type="email"
-            name="email"
-            value={newLecturer.email}
-            onChange={handleChange}
-            placeholder="Email"
-            className="border rounded-lg px-2 py-1 w-full"
-            required
-          />
+            <select
+                name="gender"
+                value={newLecturer.gender}
+                onChange={handleChange}
+                className="border rounded-lg px-2 py-1 w-full"
+                required
+            >
+                <option value="" disabled>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+          </select>
         </div>
         <div className="flex-1 px-2 py-2">
           <input

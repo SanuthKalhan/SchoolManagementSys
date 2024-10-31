@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 function LecturerTable() {
   const [editRow, setEditRow] = useState(null);
   const [lecturers, setLecturers] = useState([
-    { id: 'L001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
-    { id: 'L003', name: 'Sara Lee', age: 24, email: 'sara.lee@example.com', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
-    { id: 'L003', name: 'Sara Lee', age: 24, email: 'sara.lee@example.com', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
-    { id: 'L003', name: 'Sara Lee', age: 24, email: 'sara.lee@example.com', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L001', name: 'Neil Sims', age: 20, gender: 'Male', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L002', name: 'Alex Turner', age: 22, gender: 'Male', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
+    { id: 'L003', name: 'Sara Lee', age: 24, gender: 'Female', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L001', name: 'Neil Sims', age: 20, gender: 'Male', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L002', name: 'Alex Turner', age: 22, gender: 'Male', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
+    { id: 'L003', name: 'Sara Lee', age: 24, gender: 'Female', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L001', name: 'Neil Sims', age: 20, gender: 'Male', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L002', name: 'Alex Turner', age: 22, gender: 'Male', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
+    { id: 'L003', name: 'Sara Lee', age: 24, gender: 'Female', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -70,7 +70,7 @@ function LecturerTable() {
               <th className="px-4 py-3 truncate">Reg ID</th>
               <th className="px-4 py-3 truncate">Name</th>
               <th className="px-4 py-3 truncate">Age</th>
-              <th className="px-4 py-3 truncate">Email</th>
+              <th className="px-4 py-3 truncate">Gender</th>
               <th className="px-4 py-3 truncate">Address</th>
               <th className="px-4 py-3 truncate">Qualifications</th>
               <th className="px-4 py-3 truncate">Actions</th>
@@ -107,13 +107,13 @@ function LecturerTable() {
                 <td className="px-4 py-2 truncate">
                   {editRow === index ? (
                     <input
-                      type="email"
-                      value={lecturer.email}
-                      onChange={(e) => handleInputChange(index, 'email', e.target.value)}
+                      type="gender"
+                      value={lecturer.gender}
+                      onChange={(e) => handleInputChange(index, 'gender', e.target.value)}
                       className="border rounded px-2 py-1"
                     />
                   ) : (
-                    lecturer.email
+                    lecturer.gender
                   )}
                 </td>
                 <td className="px-4 py-2 truncate">

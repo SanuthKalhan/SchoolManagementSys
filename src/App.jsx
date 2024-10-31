@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Student from './pages/Student';
 import Lecturer from './pages/Lecturer';
 import Course from './pages/Course';
+import Enrollment from './pages/Enrollment';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/student" element={<Student/>}/>
           <Route path="/lecturer" element={<Lecturer/>}/>
           <Route path="/course" element={<Course/>}/>
+          <Route path="/enrollment" element={<Enrollment/>}/>
         </Routes>
       </Router>
     </AuthProvider>
