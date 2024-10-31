@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
 
-function StudentTable() {
+function LecturerTable() {
   const [editRow, setEditRow] = useState(null);
-  const [students, setStudents] = useState([
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
-    { id: 'S001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield' },
-    { id: 'S002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield' },
+  const [lecturers, setLecturers] = useState([
+    { id: 'L001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
+    { id: 'L003', name: 'Sara Lee', age: 24, email: 'sara.lee@example.com', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
+    { id: 'L003', name: 'Sara Lee', age: 24, email: 'sara.lee@example.com', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L001', name: 'Neil Sims', age: 20, email: 'neil.sims@flowbite.com', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
+    { id: 'L002', name: 'Alex Turner', age: 22, email: 'alex.turner@example.com', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
+    { id: 'L003', name: 'Sara Lee', age: 24, email: 'sara.lee@example.com', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,9 +21,9 @@ function StudentTable() {
   };
 
   const handleInputChange = (index, field, value) => {
-    const updatedStudents = [...students];
-    updatedStudents[index][field] = value;
-    setStudents(updatedStudents);
+    const updatedLecturers = [...lecturers];
+    updatedLecturers[index][field] = value;
+    setLecturers(updatedLecturers);
   };
 
   const handleSearchChange = (e) => {
@@ -38,22 +31,23 @@ function StudentTable() {
   };
 
   const handleDelete = (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this student?");
+    const confirmed = window.confirm("Are you sure you want to delete this lecturer?");
     if (confirmed) {
-      setStudents(students.filter(student => student.id !== id));
+      setLecturers(lecturers.filter(lecturer => lecturer.id !== id));
     }
   };
 
-  const filteredStudents = students.filter(student =>
-    Object.values(student).some(value =>
+
+  const filteredLecturers = lecturers.filter((lecturer) =>
+    Object.values(lecturer).some(value =>
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
   return (
-    <div className="relative overflow-x-auto  sm:rounded-t-2xl border rounded-2xl">
+    <div className="relative overflow-x-auto sm:rounded-t-2xl border rounded-2xl">
       <div className="flex items-center justify-between flex-col md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white rounded-t-2xl">
-        <div className="ml-5 text-gray-500 text-lg">Student Details</div>
+        <div className="ml-5 text-gray-500 text-lg">Lecturer Details</div>
         <div className="relative flex items-center ml-auto mr-5">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -62,9 +56,8 @@ function StudentTable() {
           </div>
           <input
             type="text"
-            id="table-search-users"
             className="block p-2 pl-10 text-sm text-gray-900 border rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Search for students"
+            placeholder="Search for lecturers"
             value={searchTerm}
             onChange={handleSearchChange}
           />
@@ -74,64 +67,77 @@ function StudentTable() {
         <table className="w-full text-sm text-left text-gray-500 table-fixed">
           <thead className="text-xs text-gray-700 uppercase bg-gray-100 border">
             <tr>
-              <th scope="col" className="px-4 py-3">Reg ID</th>
-              <th scope="col" className="px-4 py-3">Name</th>
-              <th scope="col" className="px-4 py-3">Age</th>
-              <th scope="col" className="px-4 py-3">Email</th>
-              <th scope="col" className="px-4 py-3">Address</th>
-              <th scope="col" className="px-4 py-3">Actions</th>
+              <th className="px-4 py-3 truncate">Reg ID</th>
+              <th className="px-4 py-3 truncate">Name</th>
+              <th className="px-4 py-3 truncate">Age</th>
+              <th className="px-4 py-3 truncate">Email</th>
+              <th className="px-4 py-3 truncate">Address</th>
+              <th className="px-4 py-3 truncate">Qualifications</th>
+              <th className="px-4 py-3 truncate">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredStudents.map((student, index) => (
-              <tr key={student.id} className="bg-white border-b hover:bg-gray-50">
-                <td className="px-4 py-2">{student.id}</td>
+            {filteredLecturers.map((lecturer, index) => (
+              <tr key={lecturer.id} className="bg-white border-b hover:bg-gray-50">
+                <td className="px-4 py-2">{lecturer.id}</td>
                 <td className="px-4 py-2 truncate">
                   {editRow === index ? (
                     <input
                       type="text"
-                      value={student.name}
+                      value={lecturer.name}
                       onChange={(e) => handleInputChange(index, 'name', e.target.value)}
                       className="border rounded px-2 py-1"
                     />
                   ) : (
-                    student.name
+                    lecturer.name
                   )}
                 </td>
                 <td className="px-4 py-2">
                   {editRow === index ? (
                     <input
                       type="number"
-                      value={student.age}
+                      value={lecturer.age}
                       onChange={(e) => handleInputChange(index, 'age', e.target.value)}
                       className="border rounded px-2 py-1"
                     />
                   ) : (
-                    student.age
+                    lecturer.age
                   )}
                 </td>
                 <td className="px-4 py-2 truncate">
                   {editRow === index ? (
                     <input
                       type="email"
-                      value={student.email}
+                      value={lecturer.email}
                       onChange={(e) => handleInputChange(index, 'email', e.target.value)}
                       className="border rounded px-2 py-1"
                     />
                   ) : (
-                    student.email
+                    lecturer.email
                   )}
                 </td>
                 <td className="px-4 py-2 truncate">
                   {editRow === index ? (
                     <input
                       type="text"
-                      value={student.address}
+                      value={lecturer.address}
                       onChange={(e) => handleInputChange(index, 'address', e.target.value)}
-                      className="border rounded px-2 py-1"
+                      className="border rounded px-2 py-1 "
                     />
                   ) : (
-                    student.address
+                    lecturer.address
+                  )}
+                </td>
+                <td className="px-4 py-2 truncate">
+                  {editRow === index ? (
+                    <input
+                      type="text"
+                      value={lecturer.qulifications}
+                      onChange={(e) => handleInputChange(index, 'qulifications', e.target.value)}
+                      className="border rounded px-2 py-1 "
+                    />
+                  ) : (
+                    lecturer.qulifications
                   )}
                 </td>
                 <td className="px-4 py-2">
@@ -142,7 +148,7 @@ function StudentTable() {
                     {editRow === index ? 'Save' : 'Edit'}
                   </button>
                   <button
-                    onClick={() => handleDelete(student.id)}
+                    onClick={() => handleDelete(lecturer.id)}
                     className="font-medium text-red-500 hover:underline"
                   >
                     Delete
@@ -157,4 +163,4 @@ function StudentTable() {
   );
 }
 
-export default StudentTable;
+export default LecturerTable;

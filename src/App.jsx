@@ -5,6 +5,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import Student from './pages/Student';
+import Lecturer from './pages/Lecturer';
+import Course from './pages/Course';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/student" element={<Student/>}/>
+          <Route path="/lecturer" element={<Lecturer/>}/>
+          <Route path="/course" element={<Course/>}/>
         </Routes>
       </Router>
     </AuthProvider>
