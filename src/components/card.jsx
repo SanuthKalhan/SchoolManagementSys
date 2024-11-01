@@ -1,10 +1,17 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const Card = (props) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(props.nav)
+  };
+
   return (
-    <div className="relative w-64 h-80 bg-white border rounded-lg  overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl" onClick={props.onClick}>
+    <div className="relative w-64 h-80 bg-white border rounded-lg  overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl" onClick={handleClick}>
       <div className="absolute top-0 left-0 right-0 w-52 h-52 bg-gradient-to-r from-green-400 to-blue-500 rounded-br-full"></div>
       <div
         className="absolute top-0 left-0 right-0 w-48 h-48 bg-white rounded-br-full z-0"

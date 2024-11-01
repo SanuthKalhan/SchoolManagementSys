@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 
 const LecturerEnrollment = ({ onEnrollLecturers, lecturers, subjects }) => {
-  const [selectedLecId, setSelectedLecId] = useState('');
   const [selectedLecName, setSelectedLecName] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [isSaved, setIsSaved] = useState(false);
 
-  const handlelecIdChange = (e) => {
-    const lecId = e.target.value;
-    setSelectedLecId(lecId);
-    const lecturer = lecturers.find(lecturer => lecturer.id === lecId);
-    setSelectedLecName(lecturer ? lecturer.name : '');
+  const handleLecNameChange = (e) => {
+    const lecName = e.target.value;
+    setSelectedLecName(lecName);
   };
 
   const handleSubjectChange = (e) => {
@@ -19,56 +16,47 @@ const LecturerEnrollment = ({ onEnrollLecturers, lecturers, subjects }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (selectedLecId && selectedSubject) {
+    const lecturer = lecturers.find(lecturer => lecturer.name === selectedLecName);
+    if (lecturer && selectedSubject) {
       onEnrollLecturers({
-        lecId: selectedLecId,
+        lecId: lecturer.id,
         lecName: selectedLecName,
         subject: selectedSubject,
       });
-      setSelectedLecId('');
       setSelectedLecName('');
       setSelectedSubject('');
       setIsSaved(true);
       setTimeout(() => {
         setIsSaved(false);
       }, 2000);
+    } else {
+      alert('Please select a lecturer and a subject to enroll.'); 
     }
   };
 
   return (
     <div className="flex-row items-center border-b bg-white mb-10 border rounded-2xl p-3">
-      <div className="ml-2 text-gray-500 text-lg">Assign lecturer to a Subject</div>
+      <div className="ml-2 text-gray-500 text-lg">Assign Lecturer to a Subject</div>
       <form onSubmit={handleSubmit} className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-center mt-3 mb-0">
         <div className="flex-1 px-2 py-2">
-          <label htmlFor="lecId" className="sr-only">Select lecturer ID</label>
+          <label htmlFor="lecName" className="sr-only">Select Lecturer Name</label>
           <select
-            id="lecId"
-            value={selectedLecId}
-            onChange={handlelecIdChange}
+            id="lecName"
+            value={selectedLecName}
+            onChange={handleLecNameChange}
             className="border rounded-lg px-2 py-1 w-full"
             required
           >
-            <option value="">Select lecturer ID</option>
+            <option value="">Select Lecturer Name</option>
             {lecturers.map(lecturer => (
-              <option key={lecturer.id} value={lecturer.id}>
-                {lecturer.id}
+              <option key={lecturer.id} value={lecturer.name}>
+                {lecturer.name}
               </option>
             ))}
           </select>
         </div>
-        <div className="flex-1 px-2 py-2">
-          <label htmlFor="lecName" className="sr-only">Lecturer Name</label>
-          <input
-            id="lecName"
-            type="text"
-            value={selectedLecName}
-            readOnly
-            placeholder="lecturer Name"
-            className="border rounded-lg px-2 py-1 w-full"
-          />
-        </div>
         <div className="flex-initial px-2 py-2 text-left sm:text-right">
-          <span className="text-gray-500 ">Assign To:</span>
+          <span className="text-gray-500">Assign To:</span>
         </div>
         <div className="flex-1 px-2 py-2">
           <label htmlFor="subject" className="sr-only">Select Subject</label>

@@ -15,11 +15,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/dashboard" element={<Dashboard/>}/>
-          <Route path="/student" element={<Student/>}/>
-          <Route path="/lecturer" element={<Lecturer/>}/>
-          <Route path="/course" element={<Course/>}/>
-          <Route path="/enrollment" element={<Enrollment/>}/>
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
+          <Route path="/student" element={<ProtectedRoute><Student/></ProtectedRoute>}/>
+          <Route path="/lecturer" element={<ProtectedRoute><Lecturer/></ProtectedRoute>}/>
+          <Route path="/course" element={<ProtectedRoute><Course/></ProtectedRoute>}/>
+          <Route path="/enrollment" element={<ProtectedRoute><Enrollment/></ProtectedRoute>}/>
         </Routes>
       </Router>
     </AuthProvider>

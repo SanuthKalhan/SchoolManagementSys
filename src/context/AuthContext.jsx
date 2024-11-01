@@ -1,10 +1,9 @@
-// src/context/AuthContext.jsx
 import React, { useContext, useState, createContext } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = useState(!localStorage.getItem('token'));
 
     const login = () => setIsAuth(true);
     const logout = () => setIsAuth(false);

@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function StudentTable() {
   const [editRow, setEditRow] = useState(null);
-  const [students, setStudents] = useState([
-    { id: 'S001', name: 'Neil Sims', age: 20, gender: 'Male', birthCertificate: 'path/to/neil-bc.pdf' },
-    { id: 'S002', name: 'Alex Turner', age: 22, gender: 'Male', birthCertificate: 'path/to/alex-bc.pdf' },
-  ]);
-
+  const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/student'); 
+        setStudents(response.data);
+      } catch (error) {
+        console.error('Error fetching student data:', error);
+      }
+    };
+
+    fetchStudents();
+  }, []); 
+
   const handleEditClick = (index) => {
-    setEditRow(editRow === index ? null : index);
+    if (editRow === index) {
+      handleUpdate(students[index]); 
+      setEditRow(null);
+    } else {
+      setEditRow(index);
+    }
   };
 
   const handleInputChange = (index, field, value) => {
@@ -23,10 +38,27 @@ function StudentTable() {
     setSearchTerm(e.target.value);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this student?");
     if (confirmed) {
-      setStudents(students.filter(student => student.id !== id));
+      try {
+        await axios.delete(`http://localhost:5000/student/${id}`);
+        setStudents(students.filter(student => student.id !== id));
+      } catch (error) {
+        console.error('Error deleting student:', error);
+      }
+    }
+  };
+
+  const handleUpdate = async (student) => {
+    try {
+      const response = await axios.put(`http://localhost:5000/student/${student.id}`, student);
+      const updatedStudents = students.map((s) => 
+        s.id === student.id ? response.data : s
+      );
+      setStudents(updatedStudents);
+    } catch (error) {
+      console.error('Error updating student:', error);
     }
   };
 
@@ -64,7 +96,6 @@ function StudentTable() {
               <th scope="col" className="px-4 py-3">Name</th>
               <th scope="col" className="px-4 py-3">Age</th>
               <th scope="col" className="px-4 py-3">Gender</th>
-              <th scope="col" className="px-4 py-3">Birth Certificate</th>
               <th scope="col" className="px-4 py-3">Actions</th>
             </tr>
           </thead>
@@ -106,20 +137,6 @@ function StudentTable() {
                     />
                   ) : (
                     student.gender
-                  )}
-                </td>
-                <td className="px-4 py-2">
-                  {editRow === index ? (
-                    <input
-                      type="text"
-                      value={student.birthCertificate}
-                      onChange={(e) => handleInputChange(index, 'birthCertificate', e.target.value)}
-                      className="border rounded px-2 py-1"
-                    />
-                  ) : (
-                    <a href={student.birthCertificate} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
-                      View PDF
-                    </a>
                   )}
                 </td>
                 <td className="px-4 py-2">

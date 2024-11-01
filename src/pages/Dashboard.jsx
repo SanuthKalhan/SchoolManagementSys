@@ -10,10 +10,10 @@ function Dashboard() {
         Welcome to the Admin Dashboard!
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center px-20 mt-20">
-        <Card img={'/student.jpg'} title={"Student Management"} />
-        <Card img={'/teacher.jpg'} title={"Lecturer Management"} />
-        <Card img={'/course.jpg'} title={"Course Management"} />
-        <Card img={'/enroll.jpg'} title={"Enrollment Management"} />
+        <Card img={'/student.jpg'} title={"Student Management"} nav={"/student"} />
+        <Card img={'/teacher.jpg'} title={"Lecturer Management"} nav={"/lecturer"} />
+        <Card img={'/course.jpg'} title={"Course Management"} nav={"/course"}/>
+        <Card img={'/enroll.jpg'} title={"Enrollment Management" }  nav={"/enrollment"}/>
       </div>
     </MainLayout>
   );

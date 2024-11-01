@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function CourseTable() {
   const [editRow, setEditRow] = useState(null);
-  const [courses, setCourses] = useState([
-    { code: 'C001', title: 'Introduction to Programming', description: 'Learn the basics of programming.', difficulty: 'Beginner', credits: 3 },
-    { code: 'C002', title: 'Data Structures', description: 'Understand core data structures.', difficulty: 'Intermediate', credits: 4 },
-    { code: 'C003', title: 'Machine Learning', description: 'An introduction to ML concepts.', difficulty: 'Advanced', credits: 5 },
-  ]);
-
+  const [courses, setCourses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/course');
+        setCourses(response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   const handleEditClick = (index) => {
+    if (editRow !== null) {
+      handleUpdate(courses[editRow]);
+    }
     setEditRow(editRow === index ? null : index);
   };
 
@@ -24,10 +36,28 @@ function CourseTable() {
     setSearchTerm(e.target.value);
   };
 
-  const handleDelete = (code) => {
+  const handleDelete = async (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this course?");
     if (confirmed) {
-      setCourses(courses.filter(course => course.code !== code));
+      try {
+        await axios.delete(`http://localhost:5000/course/${id}`);
+        setCourses(courses.filter(course => course.id !== id));
+      } catch (error) {
+        console.error('Error deleting course:', error);
+      }
+    }
+  };
+
+  const handleUpdate = async (courseToUpdate) => {
+    try {
+      const response = await axios.put(`http://localhost:5000/course/${courseToUpdate.id}`, courseToUpdate);
+      const updatedCourseIndex = courses.findIndex(course => course.id === courseToUpdate.id);
+      const updatedCourses = [...courses];
+      updatedCourses[updatedCourseIndex] = response.data;
+      setCourses(updatedCourses);
+      setEditRow(null); 
+    } catch (error) {
+      console.error('Error updating course:', error);
     }
   };
 
@@ -65,7 +95,7 @@ function CourseTable() {
           </thead>
           <tbody>
             {filteredCourses.map((course, index) => (
-              <tr key={course.code} className="bg-white border-b hover:bg-gray-50">
+              <tr key={course.id} className="bg-white border-b hover:bg-gray-50">
                 <td className="px-4 py-2">{course.code}</td>
                 <td className="px-4 py-2 truncate">
                   {editRow === index ? (
@@ -95,12 +125,12 @@ function CourseTable() {
                   {editRow === index ? (
                     <input
                       type="text"
-                      value={course.difficulty}
-                      onChange={(e) => handleInputChange(index, 'difficulty', e.target.value)}
+                      value={course.difficultyLevel}
+                      onChange={(e) => handleInputChange(index, 'difficultyLevel', e.target.value)}
                       className="border rounded px-2 py-1"
                     />
                   ) : (
-                    course.difficulty
+                    course.difficultyLevel
                   )}
                 </td>
                 <td className="px-4 py-2">
@@ -123,7 +153,7 @@ function CourseTable() {
                     {editRow === index ? 'Save' : 'Edit'}
                   </button>
                   <button
-                    onClick={() => handleDelete(course.code)}
+                    onClick={() => handleDelete(course.id)}
                     className="font-medium text-red-500 hover:underline"
                   >
                     Delete

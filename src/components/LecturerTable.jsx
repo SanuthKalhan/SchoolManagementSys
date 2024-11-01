@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function LecturerTable() {
   const [editRow, setEditRow] = useState(null);
-  const [lecturers, setLecturers] = useState([
-    { id: 'L001', name: 'Neil Sims', age: 20, gender: 'Male', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L002', name: 'Alex Turner', age: 22, gender: 'Male', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
-    { id: 'L003', name: 'Sara Lee', age: 24, gender: 'Female', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L001', name: 'Neil Sims', age: 20, gender: 'Male', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L002', name: 'Alex Turner', age: 22, gender: 'Male', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
-    { id: 'L003', name: 'Sara Lee', age: 24, gender: 'Female', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L001', name: 'Neil Sims', age: 20, gender: 'Male', address: '123 Main St, Springfield', qulifications:'Diploma in Education' },
-    { id: 'L002', name: 'Alex Turner', age: 22, gender: 'Male', address: '456 Maple Ave, Greenfield', qulifications:'Diploma in Education' },
-    { id: 'L003', name: 'Sara Lee', age: 24, gender: 'Female', address: '789 Oak St, Springfield', qulifications:'Diploma in Education' },
-  ]);
-
+  const [lecturers, setLecturers] = useState([]); 
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const fetchLecturers = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/lecturer');
+
+        if (Array.isArray(response.data)) {
+          setLecturers(response.data);
+        } else {
+          console.error('Expected an array, but got:', response.data);
+          setLecturers([]);
+        }
+      } catch (error) {
+        console.error('Error fetching lecturers:', error);
+      }
+    };
+
+    fetchLecturers();
+  }, []);
 
   const handleEditClick = (index) => {
     setEditRow(editRow === index ? null : index);
@@ -30,13 +39,27 @@ function LecturerTable() {
     setSearchTerm(e.target.value);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this lecturer?");
     if (confirmed) {
-      setLecturers(lecturers.filter(lecturer => lecturer.id !== id));
+      try {
+        await axios.delete(`http://localhost:5000/lecturer/${id}`);
+        setLecturers(lecturers.filter(lecturer => lecturer.id !== id));
+      } catch (error) {
+        console.error('Error deleting lecturer:', error);
+      }
     }
   };
 
+  const handleSave = async (index) => {
+    const lecturer = lecturers[index];
+    try {
+      await axios.put(`http://localhost:5000/lecturer/${lecturer.id}`, lecturer);
+      setEditRow(null);
+    } catch (error) {
+      console.error('Error updating lecturer:', error);
+    }
+  };
 
   const filteredLecturers = lecturers.filter((lecturer) =>
     Object.values(lecturer).some(value =>
@@ -51,7 +74,7 @@ function LecturerTable() {
         <div className="relative flex items-center ml-auto mr-5">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
             </svg>
           </div>
           <input
@@ -107,7 +130,7 @@ function LecturerTable() {
                 <td className="px-4 py-2 truncate">
                   {editRow === index ? (
                     <input
-                      type="gender"
+                      type="text"
                       value={lecturer.gender}
                       onChange={(e) => handleInputChange(index, 'gender', e.target.value)}
                       className="border rounded px-2 py-1"
@@ -122,7 +145,7 @@ function LecturerTable() {
                       type="text"
                       value={lecturer.address}
                       onChange={(e) => handleInputChange(index, 'address', e.target.value)}
-                      className="border rounded px-2 py-1 "
+                      className="border rounded px-2 py-1"
                     />
                   ) : (
                     lecturer.address
@@ -132,17 +155,17 @@ function LecturerTable() {
                   {editRow === index ? (
                     <input
                       type="text"
-                      value={lecturer.qulifications}
-                      onChange={(e) => handleInputChange(index, 'qulifications', e.target.value)}
-                      className="border rounded px-2 py-1 "
+                      value={lecturer.qualifications}
+                      onChange={(e) => handleInputChange(index, 'qualifications', e.target.value)}
+                      className="border rounded px-2 py-1"
                     />
                   ) : (
-                    lecturer.qulifications
+                    lecturer.qualifications
                   )}
                 </td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => handleEditClick(index)}
+                    onClick={() => editRow === index ? handleSave(index) : handleEditClick(index)}
                     className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 hover:underline mr-3"
                   >
                     {editRow === index ? 'Save' : 'Edit'}
