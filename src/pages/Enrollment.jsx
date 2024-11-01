@@ -12,21 +12,26 @@ export default function Enrollment() {
   const [students, setStudents] = useState([]); 
   const [subjects, setSubjects] = useState([]);
   const [lecturers, setLecturers] = useState([]); 
+  const [studentSubjects, setStudentSubjects] = useState([]); 
+  const [lecturerSubjects, setLecturerSubjects] = useState([]);
 
   useEffect(() => {
     const fetchEnrollmentData = async () => {
       try {
-
         const studentsResponse = await axios.get('http://localhost:5000/student');
         setStudents(studentsResponse.data);
-
 
         const subjectsResponse = await axios.get('http://localhost:5000/course');
         setSubjects(subjectsResponse.data);
 
-
         const lecturersResponse = await axios.get('http://localhost:5000/lecturer');
         setLecturers(lecturersResponse.data);
+        
+        const studentSubjectsResponse = await axios.get('http://localhost:5000/stusub');
+        setStudentSubjects(studentSubjectsResponse.data);
+        
+        const lecturerSubjectsResponse = await axios.get('http://localhost:5000/lecsub');
+        setLecturerSubjects(lecturerSubjectsResponse.data);
       } catch (error) {
         console.error('Error fetching enrollment data:', error);
       }
@@ -53,6 +58,7 @@ export default function Enrollment() {
         onEnrollStudent={handleEnrollStudent}
         students={students}
         subjects={subjects}
+        enrolled = {studentSubjects}
       />
       <LecturerEnrollment
         onEnrollLecturers={handleEnrollLecturer}
@@ -63,10 +69,12 @@ export default function Enrollment() {
         <StudentSubjectsList
           students={students}
           subjects={subjects}
+          studentSubjects={studentSubjects}
         />
         <SubjectStudentsList
           students={students}
           subjects={subjects}
+          lecturerSubjects={lecturerSubjects}
         />
       </div>
     </MainLayout>

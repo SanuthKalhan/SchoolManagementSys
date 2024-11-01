@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const StudentEnrollment = ({ onEnrollStudent, students, subjects }) => {
+const StudentEnrollment = ({ onEnrollStudent, students, subjects, enrolled}) => {
   const [selectedStudentId, setSelectedStudentId] = useState('');
   const [selectedStudentName, setSelectedStudentName] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
